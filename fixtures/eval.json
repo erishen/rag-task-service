@@ -1,0 +1,42 @@
+{
+  "top_k": 3,
+  "description": "RAG 检索评估集：每个查询标注期望命中的文档文件名（可多个）。查询与样本文档共用词汇以适配 hash embedding；换真 embedding 后此集依然有效。",
+  "queries": [
+    {
+      "q": "所有权机制保证内存安全与并发安全",
+      "expected": ["doc-rust.md"]
+    },
+    {
+      "q": "Tokio 异步运行时调度器与 async/await",
+      "expected": ["doc-rust.md"]
+    },
+    {
+      "q": "多线程间用 Arc 和 Mutex 共享状态",
+      "expected": ["doc-rust.md"]
+    },
+    {
+      "q": "神经网络训练用梯度下降优化算法",
+      "expected": ["doc-ml.md"]
+    },
+    {
+      "q": "监督学习需要标注好的训练数据",
+      "expected": ["doc-ml.md"]
+    },
+    {
+      "q": "红烧肉炒糖色后加生抽老抽料酒慢炖",
+      "expected": ["doc-cook.md"]
+    },
+    {
+      "q": "炖肉小火炖一小时大火收汁",
+      "expected": ["doc-cook.md"]
+    },
+    {
+      "q": "五花肉冷水下锅焯水去腥",
+      "expected": ["doc-cook.md"]
+    },
+    {
+      "q": "深度学习用深层网络提取特征",
+      "expected": ["doc-ml.md"]
+    }
+  ]
+}

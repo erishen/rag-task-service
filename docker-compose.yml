@@ -1,0 +1,63 @@
+services:
+rag-task-service:
+    build: .
+    image: rust-rag-task-service:latest
+    # 后端端口直接暴露端口，本地直连 API 用 3000；浏览器走前端容器反代
+    ports:
+      - "3000:3000"
+    environment:
+      # 容器内必须监听 0.0.0.0；其余配置由 .env 注入（缺失时用 Dockerfile 默认值）
+      - HOST=0.0.0.0
+      # VECTOR_STORE=pgvector 时 DATABASE_URL 指向 compose 内 postgres 服务名；
+      # 未配置则留空，回退 SQLite+LanceDB 默认路径（与本地开发一致）
+      - DATABASE_URL=${DATABASE_URL:-}
+    env_file:
+      # 与本地开发共享同一份配置（API_KEY、检索模式等）；文件缺失时跳过
+      - path: .env
+        required: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # SQLite 与 LanceDB 数据持久化到命名卷，重启容器不丢失
+      - app-data:/app/data
+    restart: unless-stopped
+
+  postgres:
+    # TODO: 用私有镜像/密钥管理生产凭证；本地开发固定 ws/ws
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ws}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ws}
+      POSTGRES_DB: ${POSTGRES_DB:-ws}
+    # 仅本地开发方便 psql 直连；容器间走内网 postgres:5432
+    # 如需避免与宿主机已有 PostgreSQL 冲突，镜像后改其它宿主机端口即可
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ws} -d ${POSTGRES_DB:-ws}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: rust-rag-task-service-frontend:latest
+    # 通过 .env 注入 API_KEY，nginx 用它给 /api 带上鉴权头；未配置则后端放行
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      - rag-task-service
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  app-data:
+  pg-data:

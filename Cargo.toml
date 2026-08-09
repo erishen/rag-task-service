@@ -1,0 +1,27 @@
+[package]
+name = "rag-task-service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8", features = ["multipart"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "sync"] }
+sqlx = { version = "=0.8.6", default-features = false, features = ["runtime-tokio", "postgres"] }
+async-trait = "0.1"
+async-stream = "0.3"
+thiserror = "2"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+futures = "0.3"
+lancedb = "0.33"
+arrow-array = "58"
+arrow-schema = "58"
+jieba-rs = "0.8"
+tokio-rusqlite = "0.7"
+rusqlite = { version = "0.37", features = ["bundled"] }
+governor = "0.8"
+dotenvy = "0.15"
+
+[dev-dependencies]
+tempfile = "3"
