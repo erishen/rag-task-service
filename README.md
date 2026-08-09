@@ -247,4 +247,4 @@ curl http://127.0.0.1:3000/api/events
 curl http://127.0.0.1:3000/api/stats
 ```
 
-<div align="center">[:cn: 中文文档](README.zh.md)</div>
+<div align="center">[🇨🇳 中文文档](README.zh.md)</div>
