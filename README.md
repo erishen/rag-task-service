@@ -247,4 +247,8 @@ curl http://127.0.0.1:3000/api/events
 curl http://127.0.0.1:3000/api/stats
 ```
 
+## Related Articles
+
+- [From SQLite to LLM Reranking: Seven Design Decisions for a Rust RAG Service](https://erishen.cn/rag_task_service-en/)
+
 <div align="center"><a href="README.zh.md">🇨🇳 中文文档</a></div>
