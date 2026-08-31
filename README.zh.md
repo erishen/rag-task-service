@@ -250,7 +250,6 @@ curl http://127.0.0.1:3000/api/stats
 ```
 
 ## 相关文章
-
 - [从 SQLite 到 LLM 重排：一个 Rust RAG 服务的七层设计决策](https://erishen.cn/rag_task_service/)
 
 <div align="center"><a href="README.md">🇺🇸 README (English)</a></div>
