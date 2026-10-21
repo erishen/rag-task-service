@@ -1,5 +1,5 @@
 # ---------- 构建阶段：编译 React 静态产物 ----------
-FROM node:22-bookworm-slim AS builder
+FROM node:24-bookworm-slim AS builder
 WORKDIR /app
 # 锁定依赖版本，构建可复现
 COPY frontend/package.json frontend/package-lock.json ./
